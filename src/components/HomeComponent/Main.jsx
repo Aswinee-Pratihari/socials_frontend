@@ -11,7 +11,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 const Main = () => {
   const [data, setData] = useState();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user);
   console.log(user);
   useEffect(() => {
     const fetchData = async () => {

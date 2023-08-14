@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   console.log(user);
-  if (user == null) {
+  if (!user) {
     navigate("/login");
   }
   return (
