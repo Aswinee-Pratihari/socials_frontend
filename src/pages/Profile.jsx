@@ -5,21 +5,31 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
+import Following from "../components/ProfileComponent/Following";
 
 const Profile = () => {
   const { userId } = useParams();
   // console.log(userId);
   const [posts, setPost] = useState([]);
-  const user = useSelector((state) => state.user);
+  const [user, setUser] = useState();
+  const currentuser = useSelector((state) => state.user);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await axios.get(`/posts`);
+      const res = await axios.get(`/posts/profile/${userId}`);
       const data = await res.data;
       // console.log(res);
       setPost(data);
     };
+
+    const fetchUser = async () => {
+      const res = await axios.get(`/users/${userId}`);
+      const data = await res.data;
+      setUser(data);
+      console.log(data);
+    };
     fetchPost();
+    fetchUser();
   }, []);
 
   // const { userinfo } = useUserInfo(userId);
@@ -47,18 +57,18 @@ const Profile = () => {
                 alt=""
               />
               <h4 className="text-lg font-bold tracking-wide">
-                {user.userName}
+                {user?.userName}
               </h4>
               <span className="text-sm font-light ">
                 Joined {dayjs(user?.createdAt).format("MMM , YYYY")}
               </span>
               <div className="flex items-center gap-4">
                 <p className="text-sm font-normal">
-                  <span className="font-bold">{user.followers.length}</span>
+                  <span className="font-bold">{user?.followers.length}</span>
                   Followers
                 </p>
                 <p className="text-sm font-normal">
-                  <span className="font-bold">{user.following.length}</span>
+                  <span className="font-bold">{user?.following.length}</span>
                   Following
                 </p>
               </div>
@@ -76,8 +86,9 @@ const Profile = () => {
           {/* <PostCard /> */}
         </div>
       </div>
-      <div className="flex-[1] max-md:hidden">
+      <div className="flex-[1] gap-3 max-md:hidden h-screen sticky top-0 bottom-0">
         <Trend />
+        <Following userId={user._id} />
       </div>
     </section>
   );

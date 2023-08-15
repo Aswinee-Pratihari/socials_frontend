@@ -10,14 +10,14 @@ import {
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const PostCard = ({ post }) => {
   const user = useSelector((state) => state.user);
   // console.log(post);
   const [userinfo, setUserInfo] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`users/${post?.userId}`);
+      const res = await axios.get(`/users/${post?.userId}`);
       const data = await res.data;
       setUserInfo(data);
       // console.log(userinfo);
@@ -41,7 +41,7 @@ const PostCard = ({ post }) => {
           <div className="p-3 rounded-lg bg-white">
             <div className="flex justify-between items-center">
               <Link
-                to={`/profile/${post.userId}`}
+                to={`/profile/${post?.userId}`}
                 className="top flex items-center gap-3"
               >
                 <img
@@ -59,12 +59,14 @@ const PostCard = ({ post }) => {
                 </div>
               </Link>
 
-              <div>
-                <TrashIcon
-                  className="w-6 h-6 cursor-pointer"
-                  onClick={handleDelete}
-                />
-              </div>
+              {user?._id == userinfo?._id && (
+                <div>
+                  <TrashIcon
+                    className="w-6 h-6 cursor-pointer"
+                    onClick={handleDelete}
+                  />
+                </div>
+              )}
             </div>
 
             {/* content of post */}
@@ -89,7 +91,7 @@ const PostCard = ({ post }) => {
                   className="w-6 h-6  cursor-pointer"
                   onClick={handleLike}
                 />
-                <span>{post.likes.includes(user._id) ? "Liked" : "Like"}</span>
+                <span>{post.likes.includes(user?._id) ? "Liked" : "Like"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg

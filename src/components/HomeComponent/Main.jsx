@@ -14,12 +14,12 @@ import Modal from "./Modal";
 const Main = () => {
   const [data, setData] = useState();
   const user = useSelector((state) => state.user);
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`/posts/timeline/${user?._id}`);
       const data = await res.data;
-      // console.log(data);
+      console.log(data);
       setData(data);
     };
 
@@ -57,7 +57,7 @@ const Main = () => {
       {/* reating post card */}
       <div className="space-y-4">
         {data?.map((post) => {
-          return <PostCard post={post} key={post._id} />;
+          return <PostCard post={post} key={post?._id} />;
         })}
       </div>
     </main>
