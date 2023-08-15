@@ -18,6 +18,11 @@ const persistConfig = {
   storage,
 };
 
+// const rootReducer = combineReducers({
+//   posts: persistReducer(persistConfig, postsReducer),
+//   other: persistReducer(persistConfig, otherReducer),
+//   // Add more reducers here
+// });
 const persistedReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: persistedReducer,
