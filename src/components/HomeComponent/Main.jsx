@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import image from "../../assets/react.svg";
 import {
   BeakerIcon,
   HomeIcon,
@@ -9,10 +10,11 @@ import {
 import PostCard from "../PostCard";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Modal from "./Modal";
 const Main = () => {
   const [data, setData] = useState();
   const user = useSelector((state) => state.user);
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`posts/timeline/${user?._id}`);
@@ -38,6 +40,8 @@ const Main = () => {
         </span>
       </div>
 
+      {/* <Modal /> */}
+
       {/* creating search for feed */}
       <div className="inputsearch flex gap-3 items-center rounded-lg shadow-xl bg-white w-fit my-4 p-3">
         <MagnifyingGlassIcon className="w-4 h-4 " />
@@ -53,7 +57,7 @@ const Main = () => {
       {/* reating post card */}
       <div className="space-y-4">
         {data?.map((post) => {
-          return <PostCard post={post} />;
+          return <PostCard post={post} key={post._id} />;
         })}
       </div>
     </main>

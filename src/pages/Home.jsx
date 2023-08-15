@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Home = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  console.log(user);
+  // console.log(user);
   if (!user) {
     navigate("/login");
   }

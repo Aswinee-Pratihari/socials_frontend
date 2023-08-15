@@ -6,17 +6,20 @@ import {
   MagnifyingGlassIcon,
   UserIcon,
   HandThumbUpIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 import axios from "axios";
+import { useSelector } from "react-redux";
 const PostCard = ({ post }) => {
-  console.log(post);
+  const user = useSelector((state) => state.user);
+  // console.log(post);
   const [userinfo, setUserInfo] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`users/${post?.userId}`);
       const data = await res.data;
       setUserInfo(data);
-      console.log(userinfo);
+      // console.log(userinfo);
     };
 
     fetchData();
@@ -27,22 +30,36 @@ const PostCard = ({ post }) => {
       userId: "64d9ed4fdbf13c1ba994e445",
     });
   };
+  const handleDelete = async () => {
+    await axios.delete(`posts/${post?._id}`);
+  };
   return (
     <>
       {post != null && (
         <>
           <div className="p-3 rounded-lg bg-white">
-            <div className="top flex items-center gap-3 ">
-              <img
-                src="https://online-communities.demos.buddyboss.com/wp-content/sandbox211082-uploads/avatars/2/621e2ce4392dd-bpthumb.png"
-                className="w-10 h-10 rounded-full object-cover"
-                alt=""
-              />
+            <div className="flex justify-between items-center">
+              <div className="top flex items-center gap-3 ">
+                <img
+                  src="https://online-communities.demos.buddyboss.com/wp-content/sandbox211082-uploads/avatars/2/621e2ce4392dd-bpthumb.png"
+                  className="w-10 h-10 rounded-full object-cover"
+                  alt=""
+                />
+                <div>
+                  <h5 className="text-sm font-semibold">
+                    {userinfo?.userName}
+                  </h5>
+                  <p className="text-sm font-normal">
+                    {dayjs(post?.updatedAt).format("MMM D, YYYY")}
+                  </p>
+                </div>
+              </div>
+
               <div>
-                <h5 className="text-sm font-semibold">{userinfo?.userName}</h5>
-                <p className="text-sm font-normal">
-                  {dayjs(post?.updatedAt).format("MMM D, YYYY")}
-                </p>
+                <TrashIcon
+                  className="w-6 h-6 cursor-pointer"
+                  onClick={handleDelete}
+                />
               </div>
             </div>
 
@@ -53,7 +70,7 @@ const PostCard = ({ post }) => {
                 {post?.img && (
                   <img
                     src={post?.img}
-                    className="w-1/2 h-52 rounded-lg object-cover mx-auto"
+                    className="max-w  rounded-lg object-cover mx-auto"
                     alt=""
                   />
                 )}
@@ -68,7 +85,7 @@ const PostCard = ({ post }) => {
                   className="w-6 h-6  cursor-pointer"
                   onClick={handleLike}
                 />
-                <span>Like</span>
+                <span>{post.likes.includes(user._id) ? "Liked" : "Like"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg
