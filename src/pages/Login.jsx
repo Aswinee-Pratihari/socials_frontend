@@ -13,8 +13,8 @@ const Login = () => {
     // Perform login logic here
     const res = await axios.post("/users/signIn", { email, password });
     console.log(res?.data);
-    dispatch(login(res?.data));
     navigate("/");
+    dispatch(login(res?.data));
   };
 
   return (

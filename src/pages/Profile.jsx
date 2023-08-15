@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Trend from "../components/HomeComponent/Trend";
 import PostCard from "../components/PostCard";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import axios from "axios";
 
 const Profile = () => {
+  const { userId } = useParams();
+  // console.log(userId);
+  const [posts, setPost] = useState([]);
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await axios.get(`/posts`);
+      const data = await res.data;
+      // console.log(res);
+      setPost(data);
+    };
+    fetchPost();
+  }, []);
+
+  // const { userinfo } = useUserInfo(userId);
+  // console.log(userinfo);
+  if (!user) {
+    navigate("/login");
+  }
   return (
     <section className="p-3 rounded-lg  flex">
       <div className="flex-[3]">
@@ -22,21 +46,34 @@ const Profile = () => {
                 className="w-32 h-32 rounded-full object-cover border-4 border-white items-center"
                 alt=""
               />
-              <h4 className="text-lg font-bold tracking-wide">USERNAME</h4>
-              <span className="text-sm font-light ">Joined June 2023</span>
+              <h4 className="text-lg font-bold tracking-wide">
+                {user.userName}
+              </h4>
+              <span className="text-sm font-light ">
+                Joined {dayjs(user?.createdAt).format("MMM , YYYY")}
+              </span>
               <div className="flex items-center gap-4">
                 <p className="text-sm font-normal">
-                  <span className="font-bold">12</span> Followers
+                  <span className="font-bold">{user.followers.length}</span>
+                  Followers
                 </p>
                 <p className="text-sm font-normal">
-                  <span className="font-bold">24</span> Following
+                  <span className="font-bold">{user.following.length}</span>
+                  Following
                 </p>
               </div>
             </div>
           </div>
 
-          <PostCard />
-          <PostCard />
+          {posts.length > 0 ? (
+            posts?.map((post) => {
+              return <PostCard post={post} key={post?._id} />;
+            })
+          ) : (
+            <>no post to show</>
+          )}
+
+          {/* <PostCard /> */}
         </div>
       </div>
       <div className="flex-[1] max-md:hidden">

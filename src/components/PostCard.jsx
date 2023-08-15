@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -42,7 +42,10 @@ const PostCard = ({ post }) => {
         <>
           <div className="p-3 rounded-lg bg-white">
             <div className="flex justify-between items-center">
-              <div className="top flex items-center gap-3 ">
+              <Link
+                to={`/profile/${post.userId}`}
+                className="top flex items-center gap-3"
+              >
                 <img
                   src="https://online-communities.demos.buddyboss.com/wp-content/sandbox211082-uploads/avatars/2/621e2ce4392dd-bpthumb.png"
                   className="w-10 h-10 rounded-full object-cover"
@@ -56,7 +59,7 @@ const PostCard = ({ post }) => {
                     {dayjs(post?.updatedAt).format("MMM D, YYYY")}
                   </p>
                 </div>
-              </div>
+              </Link>
 
               <div>
                 <TrashIcon

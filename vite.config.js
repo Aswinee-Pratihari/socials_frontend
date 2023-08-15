@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/posts": "http://localhost:3000",
-      "/users": "http://localhost:3000", // Replace with your API's base URL
+      "/users": "http://localhost:3000",
+      // Replace with your API's base URL
     },
   },
 });

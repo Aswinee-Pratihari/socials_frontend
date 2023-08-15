@@ -15,8 +15,8 @@ export const authSlice = createSlice({
       // immutable state based off those changes
       state.user = action.payload;
     },
-    decrement: (state) => {
-      state.value -= 1;
+    logout: (state) => {
+      state.user = null;
     },
     incrementByAmount: (state, action) => {
       state.value += action.payload;
@@ -25,6 +25,6 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { login, decrement, incrementByAmount } = authSlice.actions;
+export const { login, logout, incrementByAmount } = authSlice.actions;
 
 export default authSlice.reducer;

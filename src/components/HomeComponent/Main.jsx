@@ -15,10 +15,10 @@ const Main = () => {
   const [data, setData] = useState();
   const [openModal, setOpenModal] = useState(false);
   const user = useSelector((state) => state.user);
-  // console.log(user);
+  console.log(user);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`posts/timeline/${user?._id}`);
+      const res = await axios.get(`/posts/timeline/${user?._id}`);
       const data = await res.data;
       // console.log(data);
       setData(data);
