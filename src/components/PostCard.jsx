@@ -10,9 +10,8 @@ import {
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const PostCard = ({ post }) => {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   // console.log(post);
   const [userinfo, setUserInfo] = useState(null);
@@ -31,7 +30,6 @@ const PostCard = ({ post }) => {
     await axios.put(`posts/like/${post?._id}`, {
       userId: "64d9ed4fdbf13c1ba994e445",
     });
-    navigate("/");
   };
   const handleDelete = async () => {
     await axios.delete(`posts/${post?._id}`);

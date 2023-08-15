@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 import Modal from "./Modal";
 const Main = () => {
   const [data, setData] = useState();
-  const [openModal, setOpenModal] = useState(false);
   const user = useSelector((state) => state.user);
   console.log(user);
   useEffect(() => {
@@ -30,10 +29,7 @@ const Main = () => {
     <main className="p-4">
       <h2 className="font-bold text-2xl">Activity Feed</h2>
 
-      <div
-        className="flex items-center gap-4 bg-white px-5 py-3 rounded-xl mt-4 cursor-pointer"
-        onClick={() => setOpenModal(true)}
-      >
+      <div className="flex items-center gap-4 bg-white px-5 py-3 rounded-xl mt-4 cursor-pointer">
         <img
           src="https://online-communities.demos.buddyboss.com/wp-content/sandbox211082-uploads/avatars/2/621e2ce4392dd-bpthumb.png"
           className="w-10 h-10 rounded-full object-cover"
@@ -44,7 +40,7 @@ const Main = () => {
         </span>
       </div>
 
-      {openModal && <Modal openModal={openModal} setOpenModal={setOpenModal} />}
+      {/* <Modal /> */}
 
       {/* creating search for feed */}
       <div className="inputsearch flex gap-3 items-center rounded-lg shadow-xl bg-white w-fit my-4 p-3">
@@ -61,7 +57,7 @@ const Main = () => {
       {/* reating post card */}
       <div className="space-y-4">
         {data?.map((post) => {
-          return <PostCard post={post} key={post?._id} />;
+          return <PostCard post={post} key={post._id} />;
         })}
       </div>
     </main>

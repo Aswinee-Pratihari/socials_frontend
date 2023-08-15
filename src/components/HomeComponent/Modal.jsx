@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import image from "../../assets/react.svg";
 import axios from "axios";
-const Modal = ({ openModal, setOpenModal }) => {
+const Modal = () => {
   const [res, setRes] = useState({});
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
-  const [preview, setpreview] = useState("");
   // const handleFile = (e) => {
   //   e.preventDefault();
   //   setFile(e.target.files[0]);
@@ -21,10 +20,6 @@ const Modal = ({ openModal, setOpenModal }) => {
       console.log("Only JPEG, PNG, and GIF images are allowed.");
       return;
     }
-    setpreview(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const handleUpload = async () => {
     try {
       setLoading(true);
       let formData = new FormData();
@@ -41,10 +36,6 @@ const Modal = ({ openModal, setOpenModal }) => {
 
   const handlePost = async (e) => {
     e.preventDefault();
-    if (content == "" && res.url == undefined) {
-      alert("add some values pls");
-      return;
-    }
     try {
       const data = await axios.post("posts", {
         content,
@@ -52,25 +43,16 @@ const Modal = ({ openModal, setOpenModal }) => {
       });
       setContent("");
       setRes({});
-      setpreview("");
-      setOpenModal(false);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center max-h-full overflow-scroll">
+    <div className="fixed inset-0 z-10 flex items-center justify-center max-h-screen overflow-scroll">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="z-20 bg-white rounded-lg p-8 w-3/4 relative">
+      <div className="z-20 bg-white rounded-lg p-8 w-3/4">
         <div>
-          <button
-            className="absolute top-0 right-0"
-            onClick={() => setOpenModal(false)}
-          >
-            close
-          </button>
-
           <div>
             <input
               type="file"
@@ -97,34 +79,16 @@ const Modal = ({ openModal, setOpenModal }) => {
                 )} */}
 
                 {file && (
-                  <button
-                    className="bg-blue-600 py-2 px-3"
-                    onClick={handleUpload}
-                  >
-                    {loading
-                      ? "uploading..."
-                      : // <img src={preview} className="w" />
-                        "Upload Image"}
-                  </button>
+                  <>
+                    {loading ? (
+                      "uploading..."
+                    ) : (
+                      <img src={res.url} className="w" />
+                    )}
+                  </>
                 )}
               </div>
             </label>
-            <div className="flex justify-center">
-              {preview && (
-                <div className="relative">
-                  <img
-                    src={preview}
-                    className="max-h-[200px] aspect-square overflow-hidden object-cover"
-                  />
-                  <button
-                    className="absolute top-0 right-0 text-white font-semibold"
-                    onClick={() => setpreview("")}
-                  >
-                    delete
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
           <textarea
             name=""
