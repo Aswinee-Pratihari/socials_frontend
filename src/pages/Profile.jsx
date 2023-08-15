@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
 import Following from "../components/ProfileComponent/Following";
+import Follower from "../components/ProfileComponent/Follower";
 
 const Profile = () => {
   const { userId } = useParams();
@@ -30,7 +31,7 @@ const Profile = () => {
     };
     fetchPost();
     fetchUser();
-  }, []);
+  }, [userId]);
 
   // const { userinfo } = useUserInfo(userId);
   // console.log(userinfo);
@@ -87,8 +88,8 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex-[1] gap-3 max-md:hidden h-screen sticky top-0 bottom-0">
-        <Trend />
-        <Following userId={user._id} />
+        <Following userId={user?._id} />
+        <Follower userId={user?._id} />
       </div>
     </section>
   );
