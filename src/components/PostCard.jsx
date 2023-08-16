@@ -32,7 +32,11 @@ const PostCard = ({ post }) => {
     });
   };
   const handleDelete = async () => {
-    await axios.delete(`posts/${post?._id}`);
+    try {
+      await axios.delete(`posts/${post?._id}`);
+    } catch (error) {
+      alert("you are not allowed to delete the post");
+    }
   };
   return (
     <>

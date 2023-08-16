@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import SideBar from "./components/SideBar";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import Search from "./pages/Search";
 
 function App() {
   const AppLayout = () => {
@@ -35,12 +36,17 @@ function App() {
           path: "/profile/:userId",
           element: <Profile />,
         },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/search",
+          element: <Search />,
+        },
       ],
     },
-    {
-      path: "/login",
-      element: <Login />,
-    },
+    ,
   ]);
   return (
     <>

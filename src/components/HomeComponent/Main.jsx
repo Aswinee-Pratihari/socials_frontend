@@ -13,8 +13,9 @@ import { useSelector } from "react-redux";
 import Modal from "./Modal";
 const Main = () => {
   const [data, setData] = useState();
+
   const user = useSelector((state) => state.user);
-  // console.log(user);
+  console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`/posts/timeline/${user?._id}`);
