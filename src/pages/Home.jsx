@@ -9,20 +9,6 @@ const Home = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  useEffect(() => {
-    const cookies = document.cookie.split(";");
-    for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split("=");
-      console.log(name);
-      // if (name === "access_token" && value !== undefined) {
-      //   console.log(true);
-      // } else {
-      //   navigate("/login");
-      //   dispatch(logout());
-      // }
-      // console.log(false);
-    }
-  }, []);
 
   return (
     <div className="flex py-4">
