@@ -11,10 +11,14 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     // Perform login logic here
-    const res = await axios.post("/users/signIn", { email, password });
-    console.log(res?.data);
-    navigate("/");
-    dispatch(login(res?.data));
+    try {
+      const res = await axios.post("/users/signIn", { email, password });
+      navigate("/");
+      dispatch(login(res?.data));
+    } catch (error) {
+      // console.log(error.response.data);
+      alert(error.response.data);
+    }
   };
 
   return (

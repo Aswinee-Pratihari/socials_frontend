@@ -8,6 +8,7 @@ import SideBar from "./components/SideBar";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const AppLayout = () => {
@@ -39,6 +40,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/signUp",
+          element: <SignUp />,
         },
         {
           path: "/search",
