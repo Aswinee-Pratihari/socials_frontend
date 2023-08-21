@@ -9,14 +9,18 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
 import SignUp from "./pages/SignUp";
+import { useSelector } from "react-redux";
 
 function App() {
+  const user = useSelector((state) => state.user);
   const AppLayout = () => {
     return (
       <div className="flex  justify-center">
-        <div className="flex-1">
-          <SideBar />
-        </div>
+        {user != null && (
+          <div className="flex-1">
+            <SideBar />
+          </div>
+        )}
         <div className="flex-[4]">
           <Outlet />
         </div>
