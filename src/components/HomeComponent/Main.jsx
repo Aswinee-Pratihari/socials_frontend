@@ -9,28 +9,21 @@ import {
 } from "@heroicons/react/24/solid";
 import PostCard from "../PostCard";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/authSlice";
-import { fetchPosts } from "../../redux/postSlice";
-// import { fetchPosts, setPost } from "../../redux/postSlice";
 const Main = () => {
-  const dispatch = useDispatch();
   const [data, setData] = useState();
 
-  // const user = useSelector((state) => state.user);
-
-  const user = useSelector((state) => state?.auth?.user);
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-
   // console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts/timeline/${user?._id}`);
         const data = await res.data;
-        dispatch(fetchPosts(data));
         console.log(data);
         setData(data);
       } catch (error) {
