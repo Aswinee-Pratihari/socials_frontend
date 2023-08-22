@@ -4,13 +4,20 @@ import { HandThumbUpIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { deletepost, fetchSinglePost, setPost } from "../redux/postSlice";
+import {
+  deletepost,
+  fetchSinglePost,
+  likepost,
+  setPost,
+} from "../redux/postSlice";
 const PostCard = ({ post }) => {
   const likeCount = Object.keys(post?.likes).length;
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const posts = useSelector((state) => state.post.post);
-  // console.log(posts);
+  console.log(posts);
   const [userinfo, setUserInfo] = useState(null);
+  const [like, setLike] = useState(post.likes.length);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -26,24 +33,29 @@ const PostCard = ({ post }) => {
     };
 
     fetchData();
-  }, []);
+  }, [like, setLike]);
 
   const handleLike = async () => {
     const res = await axios.put(`posts/like/${post?._id}`, {
       userId: `${userinfo?._id}`,
     });
-    dispatch(setPost(res.data));
-
-    // console.log(res);
+    if (res.data == "liked") {
+      setLike(like + 1);
+    } else {
+      setLike(like - 1);
+    }
+    console.log(res);
   };
   const handleDelete = async () => {
     try {
-      const res = await axios.get(`posts/${post?._id}`);
-      dispatch(deletepost(res.data));
-      // console.log(res);
+      dispatch(deletepost(post._id));
+      // const res = await axios.delete(`posts/${post?._id}`);
+      // alert("post deleted");
+      // navigate("/");
+      console.log(res);
     } catch (error) {
       console.log(error);
-      alert("you are not allowed to delete the post");
+      alert("you can't delete the post");
     }
   };
   return (
@@ -66,7 +78,7 @@ const PostCard = ({ post }) => {
                     {userinfo?.userName}
                   </h5>
                   <p className="text-sm font-normal">
-                    {dayjs(post?.updatedAt).format("MMM D, YYYY")}
+                    {dayjs(post?.createdAt).format("MMM D, YYYY")}
                   </p>
                 </div>
               </Link>
@@ -97,7 +109,7 @@ const PostCard = ({ post }) => {
 
             {/* buttons for like and comment */}
             <div className="flex gap-4 items-center">
-              <span>{likeCount} Likes</span>
+              <span>{like} Likes</span>
               <div className="flex items-center gap-2">
                 <HandThumbUpIcon
                   className="w-6 h-6  cursor-pointer"
