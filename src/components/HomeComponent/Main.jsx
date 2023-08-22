@@ -13,18 +13,23 @@ import { useDispatch, useSelector } from "react-redux";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/authSlice";
+import { fetchPosts, setPost } from "../../redux/postSlice";
 const Main = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState();
 
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
+
+  const user = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate();
+  const posts = useSelector((state) => state.post.post);
   // console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts/timeline/${user?._id}`);
         const data = await res.data;
+        dispatch(setPost(data));
         // console.log(data);
         setData(data);
       } catch (error) {
@@ -36,6 +41,7 @@ const Main = () => {
 
     fetchData();
   }, []);
+
   return (
     <main className="p-4">
       <h2 className="font-bold text-2xl">Activity Feed</h2>

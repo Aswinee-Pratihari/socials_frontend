@@ -13,11 +13,16 @@ const Login = () => {
     // Perform login logic here
     try {
       const res = await axios.post("/users/signIn", { email, password });
+      console.log(res.data);
       navigate("/");
       dispatch(login(res?.data));
     } catch (error) {
-      // console.log(error.response.data);
-      alert(error.response.data);
+      console.log(error.response.data);
+      if (error.response.data === "") {
+        alert("Internal server error");
+      } else {
+        alert(error?.response?.data);
+      }
     }
   };
 

@@ -12,7 +12,8 @@ import SignUp from "./pages/SignUp";
 import { useSelector } from "react-redux";
 
 function App() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
+  // console.log(user);
   const AppLayout = () => {
     return (
       <div className="flex  justify-center">

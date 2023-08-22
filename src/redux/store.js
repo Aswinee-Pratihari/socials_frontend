@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice";
+import postReducer from "./postSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,7 +19,12 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, authReducer);
+const rootReducer = combineReducers({
+  auth: authReducer,
+  post: postReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
